@@ -2,9 +2,6 @@ const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v10");
 const { Client, GatewayIntentBits, Collection } = require("discord.js");
 const { Player } = require("discord-player");
-const TOKEN =
-  "MTIyMzM3MDcyMzA0NTkzNzIxMg.GsIW0B.eObD3JjZL5kUx5OQtf6SlGXU11sG2O4Zgvi4n8";
-const CLIENT_ID = "1223370723045937212";
 const fs = require("fs");
 const path = require("path");
 
@@ -40,10 +37,10 @@ client.on("ready", () => {
   // Get all ids of the servers
   const guild_ids = client.guilds.cache.map((guild) => guild.id);
 
-  const rest = new REST({ version: "9" }).setToken(TOKEN); //process.env.TOKEN
+  const rest = new REST({ version: "9" }).setToken(process.env.TOKEN); //process.env.TOKEN
   for (const guildId of guild_ids) {
     rest
-      .put(Routes.applicationGuildCommands(CLIENT_ID, guildId), {
+      .put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId), {
         body: commands,
       })
       .then(() =>
@@ -70,4 +67,4 @@ client.on("interactionCreate", async (interaction) => {
 });
 
 client.player.extractors.loadDefault();
-client.login(TOKEN);
+client.login(process.env.TOKEN);
